@@ -1,12 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- */
 
 package org.itson.grafoslocalidades;
 
 /**
  *
- * @author darkm
+ * @author
  */
 public class GrafosLocalidades {
 
