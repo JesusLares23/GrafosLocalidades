@@ -1,46 +1,44 @@
+
 package grafos;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  *
- * @author Jesús Amarillas - ######, Angel Beltrán - 244865, Jesús Lares -
- * 233383
+ * @author darkm
  */
 public class Grafo {
-
-    private int[][] matrizAdj;
+    private int[][] matrizAdy;
     private List<String> vertices;
     private int numAristas;
-
-    // Constructor que crea un grafo vacío
+    
     public Grafo(int tam) {
-        matrizAdj = new int[tam][tam];
+        matrizAdy = new int[tam][tam];
         vertices = new ArrayList<>();
         numAristas = 0;
     }
 
-    // agregarVertice que agrega un vértice al grafo, si no existe
     public void agregarVertice(String vertice) {
         if (!vertices.contains(vertice)) {
             vertices.add(vertice);
         }
     }
 
-    // eliminarVertice que elimina un vértice del grafo, si existe
     public void eliminarVertice(String vertice) {
         int indice = vertices.indexOf(vertice);
         if (indice != -1) {
             vertices.remove(indice);
-            for (int i = 0; i < matrizAdj.length; i++) {
-                matrizAdj[i][indice] = 0;
-                matrizAdj[indice][i] = 0;
+            for (int i = 0; i < matrizAdy.length; i++) {
+                matrizAdy[i][indice] = 0;
+                matrizAdy[indice][i] = 0;
             }
         }
     }
 
-    // getVertice que regresa el vértice de un índice dado en la lista de vértices
     public String getVertice(int indice) {
         if (indice >= 0 && indice < vertices.size()) {
             return vertices.get(indice);
@@ -48,100 +46,149 @@ public class Grafo {
         return null;
     }
 
-    // getIndice que regresa el índice del vértice dado en la lista de vértices
     public int getIndice(String vertice) {
         return vertices.indexOf(vertice);
     }
 
-    // getNumVertices que obtiene el número de vértices en un grafo
     public int getNumVertices() {
         return vertices.size();
     }
 
-    // getVertices que regresa una lista de los vértices del grafo
     public List<String> getVertices() {
         return new ArrayList<>(vertices);
     }
 
-    // getMatrizAdj que regresa la matriz de adyacencias
-    public int[][] getMatrizAdj() {
-        return matrizAdj;
+    public int[][] getAdyacencia() {
+        return matrizAdy;
     }
 
-    // estaVacio que determina si un grafo está vacío
     public boolean estaVacio() {
         return vertices.isEmpty();
     }
 
-    // limpiar que elimina todos los vértices y aristas de un grafo
     public void limpiar() {
         vertices.clear();
-        matrizAdj = new int[matrizAdj.length][matrizAdj.length];
+        matrizAdy = new int[matrizAdy.length][matrizAdy.length];
         numAristas = 0;
     }
 
-    // agregarArista que agrega una arista entre dos vértices si no existe
     public void agregarArista(String vertice1, String vertice2, int peso) {
         int indice1 = vertices.indexOf(vertice1);
         int indice2 = vertices.indexOf(vertice2);
-        if (indice1 != -1 && indice2 != -1 && matrizAdj[indice1][indice2] == 0) {
-            matrizAdj[indice1][indice2] = peso;
-            matrizAdj[indice2][indice1] = peso; // Para grafos no dirigidos
+        if (indice1 != -1 && indice2 != -1 && matrizAdy[indice1][indice2] == 0) {
+            matrizAdy[indice1][indice2] = peso;
+            matrizAdy[indice2][indice1] = peso;
             numAristas++;
         }
     }
 
-    // eliminarArista que elimina la arista entre dos vértices si existe
     public void eliminarArista(String vertice1, String vertice2) {
         int indice1 = vertices.indexOf(vertice1);
         int indice2 = vertices.indexOf(vertice2);
-        if (indice1 != -1 && indice2 != -1 && matrizAdj[indice1][indice2] != 0) {
-            matrizAdj[indice1][indice2] = 0;
-            matrizAdj[indice2][indice1] = 0; // Para grafos no dirigidos
+        if (indice1 != -1 && indice2 != -1 && matrizAdy[indice1][indice2] != 0) {
+            matrizAdy[indice1][indice2] = 0;
+            matrizAdy[indice2][indice1] = 0;
             numAristas--;
         }
     }
 
-    // getPesoArista que obtiene el peso de una arista
     public int getPesoArista(String vertice1, String vertice2) {
         int indice1 = vertices.indexOf(vertice1);
         int indice2 = vertices.indexOf(vertice2);
         if (indice1 != -1 && indice2 != -1) {
-            return matrizAdj[indice1][indice2];
+            return matrizAdy[indice1][indice2];
         }
         return 0;
     }
 
-    // setPesoArista que establece el peso de una arista
     public void setPesoArista(String vertice1, String vertice2, int peso) {
         int indice1 = vertices.indexOf(vertice1);
         int indice2 = vertices.indexOf(vertice2);
         if (indice1 != -1 && indice2 != -1) {
-            matrizAdj[indice1][indice2] = peso;
-            matrizAdj[indice2][indice1] = peso; // Para grafos no dirigidos
+            matrizAdy[indice1][indice2] = peso;
+            matrizAdy[indice2][indice1] = peso;
         }
     }
 
-    // sonAdjacentes que determina si hay una arista entre dos vértices
-    public boolean sonAdjacentes(String vertice1, String vertice2) {
+    public boolean esAdyacente(String vertice1, String vertice2) {
         int indice1 = vertices.indexOf(vertice1);
         int indice2 = vertices.indexOf(vertice2);
-        return indice1 != -1 && indice2 != -1 && matrizAdj[indice1][indice2] != 0;
+        return indice1 != -1 && indice2 != -1 && matrizAdy[indice1][indice2] != 0;
     }
 
-    // getNumAristas que determina el número de aristas de un grafo
     public int getNumAristas() {
         return numAristas;
     }
 
-    // Método para imprimir el grafo
     public void imprimirGrafo() {
         for (int i = 0; i < vertices.size(); i++) {
             System.out.print(vertices.get(i) + ": ");
             for (int j = 0; j < vertices.size(); j++) {
-                System.out.print(matrizAdj[i][j] + " ");
+                System.out.print(matrizAdy[i][j] + " ");
             }
             System.out.println();
         }
     }
+
+    public void kruskal() {
+        List<Arista> aristas = new ArrayList<>();
+        for (int i = 0; i < matrizAdy.length; i++) {
+            for (int j = i + 1; j < matrizAdy[i].length; j++) {
+                if (matrizAdy[i][j] != 0) {
+                    aristas.add(new Arista(i, j, matrizAdy[i][j]));
+                }
+            }
+        }
+
+        aristas.sort(Comparator.comparingInt(edge -> edge.destino));
+
+        BusquedaUnion busquedaUnion = new BusquedaUnion(vertices.size());
+        List<Arista> mst = new ArrayList<>();
+
+        for (Arista arista : aristas) {
+            if (busquedaUnion.union(arista.fuente, arista.origen)) {
+                mst.add(arista);
+            }
+        }
+
+        System.out.println("Aristas del Árbol de Expansión Mínima:");
+        for (Arista arista : mst) {
+            System.out.println(vertices.get(arista.fuente) + " - " + vertices.get(arista.origen) + " : " + arista.destino);
+        }
+    }
+    
+    public void dijkstra(String fuente) {
+        int nVertices = vertices.size();
+        int[] distancia = new int[nVertices];
+        boolean[] visitado = new boolean[nVertices];
+        PriorityQueue<Par> pq = new PriorityQueue<>(nVertices, Comparator.comparingInt(pair -> pair.distancia));
+
+        Arrays.fill(distancia, Integer.MAX_VALUE);
+        distancia[getIndice(fuente)] = 0;
+        pq.add(new Par(getIndice(fuente), 0));
+
+        while (!pq.isEmpty()) {
+            int u = pq.poll().nodo;
+
+            if (visitado[u]) continue;
+            visitado[u] = true;
+
+            for (int v = 0; v < nVertices; v++) {
+                if (matrizAdy[u][v] != 0 && !visitado[v] && distancia[u] != Integer.MAX_VALUE && distancia[u] + matrizAdy[u][v] < distancia[v]) {
+                    distancia[v] = distancia[u] + matrizAdy[u][v];
+                    pq.add(new Par(v, distancia[v]));
+                }
+            }
+        }
+
+        imprimirSolucion(distancia);
+    }
+
+    private void imprimirSolucion(int[] distancia) {
+        System.out.println("Distancia desde el nodo fuente:");
+        for (int i = 0; i < distancia.length; i++) {
+            System.out.println(vertices.get(i) + " -> " + distancia[i]);
+        }
+    }
+
 }
