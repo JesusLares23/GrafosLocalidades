@@ -5,12 +5,12 @@ package grafos;
  *
  * @author darkm
  */
-public class BusquedaUnion {
+public class UnionFind {
 
     int[] padre;
     int[] rango;
 
-    public BusquedaUnion(int tam) {
+    public UnionFind(int tam) {
         padre = new int[tam];
         rango = new int[tam];
         for (int i = 0; i < tam; i++) {
