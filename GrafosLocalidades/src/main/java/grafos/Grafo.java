@@ -140,20 +140,20 @@ public class Grafo {
             }
         }
 
-        aristas.sort(Comparator.comparingInt(edge -> edge.destino));
+        aristas.sort(Comparator.comparingInt(edge -> edge.peso));
 
         BusquedaUnion busquedaUnion = new BusquedaUnion(vertices.size());
         List<Arista> mst = new ArrayList<>();
 
         for (Arista arista : aristas) {
-            if (busquedaUnion.union(arista.fuente, arista.origen)) {
+            if (busquedaUnion.union(arista.origen, arista.destino)) {
                 mst.add(arista);
             }
         }
 
         System.out.println("Aristas del Árbol de Expansión Mínima:");
         for (Arista arista : mst) {
-            System.out.println(vertices.get(arista.fuente) + " - " + vertices.get(arista.origen) + " : " + arista.destino);
+            System.out.println(vertices.get(arista.origen) + " - " + vertices.get(arista.destino) + " : " + arista.peso);
         }
     }
     

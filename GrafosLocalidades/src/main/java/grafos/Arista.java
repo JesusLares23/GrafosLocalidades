@@ -7,13 +7,13 @@ package grafos;
  */
 public class Arista {
 
-    int fuente;
     int origen;
     int destino;
+    int peso;
 
-    public Arista(int fuente, int destino, int peso) {
-        this.fuente = fuente;
-        this.origen = destino;
-        this.destino = peso;
+    public Arista(int origen, int destino, int peso) {
+        this.origen = origen;
+        this.destino = destino;
+        this.peso = peso;
     }
 }
