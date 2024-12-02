@@ -313,5 +313,15 @@ public class Grafo {
         // Mostrar el MST gráficamente
         mostrarGrafoVisual(mstGraph);
     }
+    
+    public void inicializarGrafo() {
+        agregarVertice("Oaxaca");
+        agregarVertice("Santa Lucía del Camino");
+        agregarVertice("San Jacinto Amilpas");
+        agregarVertice("Santa Maria Atzompa");
+        
+        agregarArista("Oaxaca", "Santa Lucía del Camino", 4);
+        
+    }
 
 }
