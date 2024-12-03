@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author j_ama
+ * @author Jesús Amarillas - 207653, Angel Beltrán - 244865, Jesús Lares - 233383
  */
 public class ImagenGrafo extends javax.swing.JFrame {
     private BufferedImage imagen;

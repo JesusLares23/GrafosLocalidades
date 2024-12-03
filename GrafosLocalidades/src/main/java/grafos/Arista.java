@@ -3,7 +3,7 @@ package grafos;
 
 /**
  *
- * @author Jesús Amarillas - ######, Angel Beltrán - 244865, Jesús Lares - 233383
+ * @author Jesús Amarillas - 207653, Angel Beltrán - 244865, Jesús Lares - 233383
  */
 public class Arista {
 

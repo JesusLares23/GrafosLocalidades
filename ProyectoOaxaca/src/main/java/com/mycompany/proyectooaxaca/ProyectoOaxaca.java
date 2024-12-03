@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author j_ama
+ * @author Jesús Amarillas - 207653, Angel Beltrán - 244865, Jesús Lares - 233383
  */
 public class ProyectoOaxaca {
 

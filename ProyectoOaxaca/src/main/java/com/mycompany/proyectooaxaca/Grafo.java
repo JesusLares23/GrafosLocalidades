@@ -21,7 +21,7 @@ import javax.swing.*;
 
 /**
  *
- * @author j_ama
+ * @author Jesús Amarillas - 207653, Angel Beltrán - 244865, Jesús Lares - 233383
  */
 public class Grafo {
 
