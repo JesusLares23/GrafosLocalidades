@@ -2,6 +2,10 @@
 package org.itson.grafoslocalidades;
 
 import grafos.Grafo;
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 /**
@@ -11,17 +15,24 @@ import java.util.Scanner;
 public class GrafosLocalidades {
 
     public static void main(String[] args) {
+        // Soluciona el problema de caracteres especiales mostrados incorrectamente 
+        if(!"UTF-8".equals(System.out.charset().displayName())){ 
+            System.setOut(new PrintStream(new FileOutputStream(
+                    FileDescriptor.out), true, StandardCharsets.UTF_8)); 
+        }
+        
         Grafo grafo = new Grafo();
         Scanner scanner = new Scanner(System.in);
 
         int opcion;
         do {
-            System.out.println("\n--- Menú ---");
+            System.out.println("\n--- Menu ---");
             System.out.println("1. Mostrar grafo");
-            System.out.println("2. Árbol de esparcimiento mínimo");
-            System.out.println("3. Ruta más corta");
-            System.out.println("4. Salir");
-            System.out.print("Elija una opción: ");
+            System.out.println("2. Matriz de adyacencia");
+            System.out.println("3. Arbol de esparcimiento mínimo");
+            System.out.println("4. Ruta mas corta");
+            System.out.println("5. Salir");
+            System.out.print("Elija una opcion: ");
             opcion = scanner.nextInt();
             scanner.nextLine();
 
@@ -30,22 +41,26 @@ public class GrafosLocalidades {
                     grafo.imprimirGrafo();
                     break;
                 case 2:
-                    grafo.kruskalVisual();
+                    grafo.imprimirMatrizAdyacencia();
                     break;
                 case 3:
-                    System.out.print("Ingrese el vértice de origen: ");
+                    grafo.kruskal();
+                    grafo.kruskalVisual();
+                    break;
+                case 4:
+                    System.out.print("Ingrese el vertice de origen: ");
                     String origen = scanner.nextLine();
-                    System.out.print("Ingrese el vértice de destino: ");
+                    System.out.print("Ingrese el vertice de destino: ");
                     String destino = scanner.nextLine();
                     grafo.dijkstraRutaMasCorta(origen, destino);
                     break;
-                case 4:
+                case 5:
                     System.out.println("Saliendo...");
                     break;
                 default:
-                    System.out.println("Opción inválida.");
+                    System.out.println("Opcion invalida.");
             }
-        } while (opcion != 4);
+        } while (opcion != 5);
 
         scanner.close();
     }

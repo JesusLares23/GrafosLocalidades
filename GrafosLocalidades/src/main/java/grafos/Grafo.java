@@ -3,7 +3,6 @@ package grafos;
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.swing.mxGraphComponent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +27,7 @@ public class Grafo {
         matrizAdy = new int[0][0];
         vertices = new ArrayList<>();
         aristas = new ArrayList<>();
+        inicializarGrafo();
     }
 
     private Vertice buscarVertice(String nombre) {
@@ -152,42 +152,64 @@ public class Grafo {
             System.out.println(a);
         }
     }
+    
+    public void imprimirMatrizAdyacencia() {
+        if (matrizAdy == null || matrizAdy.length == 0) {
+            System.out.println("La matriz de adyacencia está vacía o no ha sido inicializada.");
+            return;
+        }
+
+        System.out.println("Matriz de Adyacencia:");
+        // Imprimir encabezados (nombres de los vértices)
+        System.out.print("     ");
+        for (Vertice vertice : vertices) {
+            System.out.print(vertice.getNombre() + "\t");
+        }
+        System.out.println();
+
+        // Imprimir cada fila
+        for (int i = 0; i < matrizAdy.length; i++) {
+            // Encabezado de fila (nombre del vértice)
+            System.out.print(vertices.get(i).getNombre() + "\t");
+
+            // Imprimir valores de la fila
+            for (int j = 0; j < matrizAdy[i].length; j++) {
+                System.out.print((matrizAdy[i][j] == Integer.MAX_VALUE ? "∞" : matrizAdy[i][j]) + "\t");
+            }
+            System.out.println();
+        }
+    }
 
     public void kruskal() {
-        // Lista para almacenar las aristas del Árbol de Esparcimiento Mínimo (MST)
         List<Arista> mst = new ArrayList<>();
-
-        // Crear un objeto UnionFind para manejar la unión de vértices
         UnionFind uf = new UnionFind(vertices.size());
-
-        // Mapa para asociar cada vértice con su índice en el conjunto
         Map<Vertice, Integer> verticeIndice = new HashMap<>();
+        int sumaPesos = 0; // Inicializamos el contador de la suma de pesos
 
+        // Asignar índices a los vértices
         for (int i = 0; i < vertices.size(); i++) {
             verticeIndice.put(vertices.get(i), i);
         }
 
-        // Ordenar las aristas en orden ascendente según el peso
+        // Ordenar las aristas por peso
         aristas.sort(Comparator.comparingInt(Arista::getPeso));
 
-        // Iterar sobre las aristas ordenadas
+        // Construcción del MST
         for (Arista arista : aristas) {
-            // Obtener los índices de los vértices origen y destino
             int origen = verticeIndice.get(arista.getOrigen());
             int destino = verticeIndice.get(arista.getDestino());
-
-            // Si los vértices no están conectados (es decir, no formarían un ciclo)
             if (uf.union(origen, destino)) {
-                // Agregar la arista al MST
                 mst.add(arista);
+                sumaPesos += arista.getPeso(); // Sumar el peso de la arista al total
             }
         }
 
-        // Imprimir el resultado: el Árbol de Expansión Mínima
-        System.out.println("\nÁrbol de Esparcimiento Mínimo (MST):");
+        // Imprimir el MST y la suma de pesos
+        System.out.println("\nÁrbol de Expansión Mínima:");
         for (Arista a : mst) {
             System.out.println(a);
         }
+        System.out.println("Suma total de pesos del MST: " + sumaPesos);
     }
 
     public List<Vertice> dijkstraRutaMasCorta(String origen, String destino) {
@@ -205,7 +227,7 @@ public class Grafo {
         for (Vertice v : vertices) {
             distancias.put(v, Integer.MAX_VALUE);
             predecesores.put(v, null);
-        }
+        }   
         distancias.put(vOrigen, 0);
 
         cola.add(new Arista(vOrigen, vOrigen, 0));
@@ -313,15 +335,83 @@ public class Grafo {
         // Mostrar el MST gráficamente
         mostrarGrafoVisual(mstGraph);
     }
-    
+
     public void inicializarGrafo() {
         agregarVertice("Oaxaca");
-        agregarVertice("Santa Lucía del Camino");
+        agregarVertice("Santa Lucia del Camino");
         agregarVertice("San Jacinto Amilpas");
         agregarVertice("Santa Maria Atzompa");
-        
-        agregarArista("Oaxaca", "Santa Lucía del Camino", 4);
-        
+        agregarVertice("San Antonio de la Cal");
+        agregarVertice("Santa Cruz Xoxocotlan");
+        agregarVertice("Villa de Zaachila");
+        agregarVertice("Mahuatlan de Porfirio Diaz");
+        agregarVertice("Puerto Escondido");
+        agregarVertice("Crucecita");
+        agregarVertice("Santiago Pinotepa Nacional");
+        agregarVertice("Tlaxiaco");
+        agregarVertice("Huajuapan de Leon");
+        agregarVertice("Tuxtepec");
+        agregarVertice("Loma Bonita");
+        agregarVertice("Matias Romero Avendaño");
+        agregarVertice("Ixtepec");
+        agregarVertice("Santo Domingo Tehuantepec");
+        agregarVertice("Salina Cruz");
+        agregarVertice("Juchitlan de Zaragoza");
+
+        //Adyacencias con Oaxaca
+        agregarArista("Oaxaca", "Santa Lucia del Camino", 4);
+        agregarArista("Oaxaca", "Santa Maria Atzompa", 8);
+        agregarArista("Oaxaca", "San Jacinto Amilpas", 8);
+
+        //Adyacencias con Santa Lucia del Camino
+        agregarArista("Santa Lucia del Camino", "Tuxtepec", 215);
+        agregarArista("Santa Lucia del Camino", "Loma Bonita", 327);
+        agregarArista("Santa Lucia del Camino", "Matias Romero Avendaño", 394);
+        agregarArista("Santa Lucia del Camino", "Santo Domingo Tehuantepec", 246);
+
+        agregarArista("Tuxtepec", "Loma Bonita", 37);
+
+        //Adyacencias con Santa Maria Atzompa
+        agregarArista("Santa Maria Atzompa", "San Jacinto Amilpas", 2);
+
+        //Adjacencias con San Jacinto Amilpas
+        agregarArista("San Jacinto Amilpas", "Huajapan de Leon", 165);
+        agregarArista("San Jacinto Amilpas", "Tlaxiaco", 158);
+        agregarArista("San Jacinto Amilpas", "Tuxtepec", 356);
+
+        agregarArista("Huajuapan de Leon", "Tlaxiaco", 120);
+        agregarArista("Huajuapan de Leon", "Santiago Pinotepa Nacional", 286);
+        agregarArista("Tlaxiaco", "Santiago Pinotepa Nacional", 217);
+
+        agregarArista("Santiago Pinotepa Nacional", "Puerto Escondido", 153);
+
+        //Adjacencias con Puerto Escondido
+        agregarArista("Puerto Escondido", "Mahuatlan de Porfirio Diaz", 145);
+        agregarArista("Puerto Escondido", "Villa de Zaachila", 239);
+        agregarArista("Puerto Escondido", "Crucecita", 114);
+
+        //Adjacencias con Mahuatlan de Porfirio Diaz
+        agregarArista("Mahuatlan de Porfirio Diaz", "Villa de Zaachila", 94);
+        agregarArista("Mahuatlan de Porfirio Diaz", "San Antonio de la Cal", 99);
+        agregarArista("Mahuatlan de Porfirio Diaz", "Crucecita", 235);
+
+        agregarArista("Villa de Zaachila", "Santa Cruz Xoxocotlan", 11);
+
+        agregarArista("Santa Cruz Xoxocotlan", "San Antonio de la Cal", 7);
+        agregarArista("San Antonio de la Cal", "Santa Lucia del Camino", 6);
+
+        agregarArista("Crucecita", "Salina Cruz", 146);
+
+        agregarArista("Salina Cruz", "Santo Domingo Tehuantepec", 16);
+
+        agregarArista("Santo Domingo Tehuantepec", "Juchitlan de Zaragoza", 28);
+        agregarArista("Santo Domingo Tehuantepec", "Ixtepec", 39);
+
+        agregarArista("Juchitlan de Zaragoza", "Ixtepec", 21);
+
+        agregarArista("Ixtepec", "Matias Romero Avendaño", 69);
+
+        agregarArista("Matias Romero Avendaño", "Loma Bonita", 209);
     }
 
 }
