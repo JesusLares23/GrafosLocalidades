@@ -152,29 +152,47 @@ public class Grafo {
             System.out.println(a);
         }
     }
-    
+
     public void imprimirMatrizAdyacencia() {
         if (matrizAdy == null || matrizAdy.length == 0) {
             System.out.println("La matriz de adyacencia está vacía o no ha sido inicializada.");
             return;
         }
 
-        System.out.println("Matriz de Adyacencia:");
-        // Imprimir encabezados (nombres de los vértices)
-        System.out.print("     ");
+        // Determinar el ancho máximo para cada celda
+        int maxWidth = 0;
+
+        // Considerar longitudes de nombres de vértices y pesos en la matriz
         for (Vertice vertice : vertices) {
-            System.out.print(vertice.getNombre() + "\t");
+            maxWidth = Math.max(maxWidth, vertice.getNombre().length());
+        }
+
+        for (int[] fila : matrizAdy) {
+            for (int peso : fila) {
+                String value = (peso == Integer.MAX_VALUE) ? "∞" : String.valueOf(peso);
+                maxWidth = Math.max(maxWidth, value.length());
+            }
+        }
+
+        // Añadir un pequeño margen para mayor claridad
+        maxWidth += 2;
+
+        // Encabezado de columnas
+        System.out.printf("%-" + maxWidth + "s", ""); // Espacio vacío para el encabezado
+        for (Vertice vertice : vertices) {
+            System.out.printf("%-" + maxWidth + "s", vertice.getNombre());
         }
         System.out.println();
 
-        // Imprimir cada fila
+        // Filas de la matriz
         for (int i = 0; i < matrizAdy.length; i++) {
-            // Encabezado de fila (nombre del vértice)
-            System.out.print(vertices.get(i).getNombre() + "\t");
+            // Encabezado de la fila (nombre del vértice)
+            System.out.printf("%-" + maxWidth + "s", vertices.get(i).getNombre());
 
-            // Imprimir valores de la fila
+            // Valores de la fila
             for (int j = 0; j < matrizAdy[i].length; j++) {
-                System.out.print((matrizAdy[i][j] == Integer.MAX_VALUE ? "∞" : matrizAdy[i][j]) + "\t");
+                String value = (matrizAdy[i][j] == Integer.MAX_VALUE) ? "∞" : String.valueOf(matrizAdy[i][j]);
+                System.out.printf("%-" + maxWidth + "s", value);
             }
             System.out.println();
         }
@@ -227,7 +245,7 @@ public class Grafo {
         for (Vertice v : vertices) {
             distancias.put(v, Integer.MAX_VALUE);
             predecesores.put(v, null);
-        }   
+        }
         distancias.put(vOrigen, 0);
 
         cola.add(new Arista(vOrigen, vOrigen, 0));
