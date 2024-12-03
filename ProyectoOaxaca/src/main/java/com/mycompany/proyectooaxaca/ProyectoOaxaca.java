@@ -49,6 +49,7 @@ public class ProyectoOaxaca {
                 case 3:
                     grafo.kruskal();
                     grafo.kruskalVisual();
+                    ImagenGrafo.mostrar("src/imagen/Oaxaca_MST.jpg");
                     break;
                 case 4:
                     System.out.print("Ingrese el vertice de origen: ");

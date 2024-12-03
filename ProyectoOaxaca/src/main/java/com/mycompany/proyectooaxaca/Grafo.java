@@ -15,6 +15,8 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import org.jgrapht.ext.JGraphXAdapter;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.layout.mxCircleLayout;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.*;
 
 /**
@@ -22,7 +24,8 @@ import javax.swing.*;
  * @author j_ama
  */
 public class Grafo {
- private int[][] matrizAdy;
+
+    private int[][] matrizAdy;
     private List<Vertice> vertices;
     private List<Arista> aristas;
 
@@ -97,6 +100,7 @@ public class Grafo {
 
             // Agregar la arista a la lista de aristas
             aristas.add(new Arista(vOrigen, vDestino, peso));
+            aristas.add(new Arista(vDestino, vOrigen, peso));
         }
     }
 
@@ -150,9 +154,19 @@ public class Grafo {
     }
 
     public void imprimirGrafo() {
+        Set<String> aristasImpresas = new HashSet<>();
+
         System.out.println("\nGrafo (Lista de Aristas):");
-        for (Arista a : aristas) {
-            System.out.println(a);
+        for (Arista arista : aristas) {
+            String identificador1 = arista.getOrigen().getNombre() + "-" + arista.getDestino().getNombre();
+            String identificador2 = arista.getDestino().getNombre() + "-" + arista.getOrigen().getNombre();
+
+            // Verificar si la arista ya fue impresa
+            if (!aristasImpresas.contains(identificador1) && !aristasImpresas.contains(identificador2)) {
+                System.out.println(arista);
+                aristasImpresas.add(identificador1);
+                aristasImpresas.add(identificador2);
+            }
         }
     }
 
